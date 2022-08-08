@@ -1,0 +1,38 @@
+.meal-card {
+  border: 2px solid #2ec5b6;
+  border-radius: 4px;
+  padding: 0px;
+  margin: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.01);
+    background: rgba(#2ec5b6, 0.2);
+  }
+
+  h2, h3 {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .meal-category {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #2ec5b6;
+    border-bottom-left-radius: 10px;
+    padding: 5px 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  img {
+    width: 100%;
+    margin-bottom: -4px;
+  }
+}

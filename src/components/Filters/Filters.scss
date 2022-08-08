@@ -1,0 +1,19 @@
+.filters-list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin: 5px 0;
+
+  li {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #2ec5b6;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(#2ec5b6, 0.2);
+    }
+  }
+}
