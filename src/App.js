@@ -12,7 +12,9 @@ function App() {
   const [origins, setOrigins] = useState([]);
   const [filters, setFilters] = useState({ categories: [], origins: [] });
 
+  // Filter meals by categories and origins selected in Filters component
   const filteredMeals = meals?.filter(meal => filters.categories.includes(meal.strCategory) && filters.origins.includes(meal.strArea)) || [];
+  // Get the ingredients of the random meal
   const randomMealIngredients = Object.keys(randomMeal || {})
   .filter(key => key.startsWith('strIngredient') && randomMeal[key]?.length > 0)
   .map(key => {
@@ -36,18 +38,22 @@ function App() {
   };
 
   const selectFilter = ([key, value]) => {
+    // Setup local variable _filters to manipulate it freely
     const _filters = { ...filters };
+    // Check if clicked filter is already selected
+    // If so, remove it from the filters' list
+    // Else, add it to the list
     if (_filters[key].includes(value)) {
       _filters[key].splice(_filters[key].indexOf(value), 1);
     } else {
       _filters[key].push(value);
     }
+    // Set the app variable with the result of our manipulation
     setFilters(_filters);
   };
 
   useEffect(() => {
     axios.get(`https://www.themealdb.com/api/json/v1/1/random.php`).then(response => {
-      console.log(response);
       setRandomMeal(response.data.meals[0]);
     });
   }, [])
@@ -67,7 +73,7 @@ function App() {
           <button className="search-button">Search</button>
         </form>
         {
-          meals.length > 0 && (
+          meals?.length > 0 && (
             <Filters categories={categories} origins={origins} filters={filters} onSelectFilter={filter => selectFilter(filter)}/>
           )
         }

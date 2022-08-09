@@ -7,9 +7,11 @@ const Meal = ({ meal }) => {
   const [showRecipe, setShowRecipe] = useState(false);
 
   const nodeRef = useRef(null);
+  // Get the ingredients of the recipe
   const ingredients = Object.keys(meal)
     .filter(key => key.startsWith('strIngredient') && meal[key]?.length > 0)
     .map(key => {
+      // Get the index of the ingredient to retrieve the matching measure
       const match = key.match(/^strIngredient(\d{1,2})$/);
       return (
         <span><b>{meal[key]}</b> - {meal[`strMeasure${match[1]}`]}</span>
@@ -18,10 +20,7 @@ const Meal = ({ meal }) => {
 
   const closeRecipe = e => {
     e.stopPropagation();
-    console.log('qdpifiohjqsmclk<');
-    console.log(showRecipe);
     setShowRecipe(!showRecipe);
-    console.log(showRecipe);
   };
 
   return (
