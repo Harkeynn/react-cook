@@ -18,7 +18,7 @@ const Filters = ({ categories, origins, filters, onSelectFilter }) => {
         classNames="reveal-down"
         nodeRef={nodeRef}
       >
-        <div className="filters-list-container" ref={nodeRef}>
+        <div className="filters-list-container reveal-down-exit-done" ref={nodeRef}>
           Categories :
           <ul className="filters-list">
             {categories.map((category, index) => (

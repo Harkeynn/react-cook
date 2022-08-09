@@ -28,10 +28,55 @@
 
 .search-button {
   border-radius: 0 3px 3px 0;
+  height: 36px;
+}
+
+.random-meal {
+  display: grid;
+  grid-template-columns: minmax(200px, 400px);
+  row-gap: 10px;
+  column-gap: 10px;
+
+  * {
+    margin: 0;
+  }
+
+  img {
+    grid-row-start: 1;
+    grid-row-end: 6;
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  ul {
+    margin-bottom: auto;
+  }
+
+  p {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: justify;
+    white-space: pre-line;
+  }
 }
 
 .meals-list {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, 300px);
+}
+
+@media (max-width: 650px) {
+  .random-meal {
+    grid-template-columns: 1fr;
+
+    &>* {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+
+    img {
+      grid-row-start: 4;
+    }
+  }
 }

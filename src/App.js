@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 import Filters from './components/Filters';
 import Meal from './components/Meal';
@@ -7,12 +7,24 @@ import Meal from './components/Meal';
 function App() {
   const [searchValue, setSearchValue] = useState('');
   const [meals, setMeals] = useState([]);
+  const [randomMeal, setRandomMeal] = useState([]);
   const [categories, setCategories] = useState([]);
   const [origins, setOrigins] = useState([]);
   const [filters, setFilters] = useState({ categories: [], origins: [] });
 
+  const filteredMeals = meals?.filter(meal => filters.categories.includes(meal.strCategory) && filters.origins.includes(meal.strArea)) || [];
+  const randomMealIngredients = Object.keys(randomMeal || {})
+  .filter(key => key.startsWith('strIngredient') && randomMeal[key]?.length > 0)
+  .map(key => {
+    const match = key.match(/^strIngredient(\d{1,2})$/);
+    return (
+      <li><b>{randomMeal[key]}</b> - {randomMeal[`strMeasure${match[1]}`]}</li>
+    )
+  });
+
   const search = e => {
     e.preventDefault();
+    setRandomMeal(null);
     axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`).then(response => {
       setMeals(response.data.meals);
       const _categories = Array.from(new Set(response.data.meals.map(meal => meal.strCategory)));
@@ -21,10 +33,6 @@ function App() {
       setOrigins(_origins);
       setFilters({ categories: [..._categories], origins: [..._origins] });
     });
-  };
-
-  const selectMeal = meal => {
-    console.log(meal);
   };
 
   const selectFilter = ([key, value]) => {
@@ -37,7 +45,12 @@ function App() {
     setFilters(_filters);
   };
 
-  const filteredMeals = meals?.filter(meal => filters.categories.includes(meal.strCategory) && filters.origins.includes(meal.strArea)) || [];
+  useEffect(() => {
+    axios.get(`https://www.themealdb.com/api/json/v1/1/random.php`).then(response => {
+      console.log(response);
+      setRandomMeal(response.data.meals[0]);
+    });
+  }, [])
 
   return (
     <div className="app-container">
@@ -59,14 +72,36 @@ function App() {
           )
         }
       </header>
-      <span>
-        {filteredMeals.length === 0 ? 'No' : filteredMeals.length} result{filteredMeals.length > 1 ? 's' : ''}
-      </span>
-      <div className="meals-list">
-        {filteredMeals.map(meal => (
-          <Meal key={meal.idMeal} meal={meal} onSelectMeal={meal => selectMeal(meal)} />
-        ))}
-      </div>
+      {
+        randomMeal ? (
+          <div>
+            <h3>Start searching meals or discover this wonderful recipe :</h3>
+            <div className="random-meal">
+              <img src={randomMeal.strMealThumb} alt={`${randomMeal.strMeal} illustration`} />
+              <h3>{randomMeal.strMeal}</h3>
+              <span>Category : {randomMeal.strCategory}</span>
+              <span>Origin : {randomMeal.strArea}</span>
+              <h4>Ingredients</h4>
+              <ul>
+                {randomMealIngredients.map(ingredient => ingredient)}
+              </ul>
+              <h4>Instructions</h4>
+              <p>{randomMeal.strInstructions}</p>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <span>
+              {filteredMeals.length === 0 ? 'No' : filteredMeals.length} result{filteredMeals.length > 1 ? 's' : ''}
+            </span>
+            <div className="meals-list">
+              {filteredMeals.map(meal => (
+                <Meal key={meal.idMeal} meal={meal} />
+              ))}
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 }

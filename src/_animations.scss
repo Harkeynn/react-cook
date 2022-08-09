@@ -1,17 +1,35 @@
+// reveal-down
 .reveal-down-enter {
-    height: 0px;
-  }
-  
-  .reveal-down-enter-done {
-    height: 140px;
-  }
-  
-  .reveal-down-exit {
-    height: 140px;
-  }
-  
-  .reveal-down-exit-done {
-    opacity: 0;
-    height: 0px;
-  }
-  
+  height: 0px;
+}
+
+.reveal-down-exit {
+  height: 140px;
+}
+
+.reveal-down-exit-done {
+  opacity: 0;
+  height: 0px;
+}
+
+.reveal-down-enter-done {
+  opacity: 1;
+  height: 140px;
+}
+
+// slide-up
+.slide-up-enter {
+  transform: translateY(100%);
+}
+
+.slide-up-exit {
+  transform: translateY(0);
+}
+
+.slide-up-exit-done {
+  transform: translateY(100%);
+}
+
+.slide-up-enter-done {
+  transform: translateY(0);
+}
