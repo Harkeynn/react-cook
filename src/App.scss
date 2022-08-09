@@ -6,7 +6,32 @@
   }
 }
 
+.searchbar {
+  height: 32px;
+  border: 1px solid #ccc;
+  border-right-width: 0;
+  background: #ccc;
+  border-radius: 3px 0 0 3px;
+  transition: 0.3s;
+
+  &:hover {
+    background: #f1f1f1;
+    border-color: #f1f1f1;
+  }
+
+  &:focus {
+    background: #f1f1f1;
+    border-color: #2ec5b6;
+    outline: none;
+  }
+}
+
+.search-button {
+  border-radius: 0 3px 3px 0;
+}
+
 .meals-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }

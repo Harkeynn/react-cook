@@ -45,14 +45,19 @@ function App() {
         <h1>React Cook</h1>
         <form onSubmit={e => search(e)}>
           <input
+            className="searchbar"
             type="text"
             defaultValue={searchValue}
             onChange={e => setSearchValue(e.target.value)}
             required
           />
-          <button>Search</button>
+          <button className="search-button">Search</button>
         </form>
-        <Filters categories={categories} origins={origins} onSelectFilter={filter => selectFilter(filter)}/>
+        {
+          meals.length > 0 && (
+            <Filters categories={categories} origins={origins} filters={filters} onSelectFilter={filter => selectFilter(filter)}/>
+          )
+        }
       </header>
       <span>
         {filteredMeals.length === 0 ? 'No' : filteredMeals.length} result{filteredMeals.length > 1 ? 's' : ''}
